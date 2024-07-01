@@ -14,7 +14,7 @@ module unified_buffer (
   input [31:0] acc2_mem_0,
   input [31:0] acc2_mem_1,
 
-  output reg [31:0] unified_mem [0:63],
+  // output reg [31:0] unified_mem [0:63],
 
   // triggered on write operation 
   output reg [31:0] out_ub_00,
@@ -23,6 +23,9 @@ module unified_buffer (
   output reg [31:0] out_ub_11
   // make another output (4 outputs registers) to output just the input activations to the input setup module
 );
+
+  // the local memory
+  reg [31:0] unified_mem [0:63];
 
   // Internal counter to keep track of the next free memory location
   reg [5:0] write_pointer;

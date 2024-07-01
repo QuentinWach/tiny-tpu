@@ -5,7 +5,7 @@ module tpu (
   reg [15:0] instruction; // Instruction register
   reg [15:0] instruction_mem [0:7]; // Instruction memory. Adjust the size as needed.   
                                     // TODO: Turn instruction_mem into its own memory partition? 
-  wire [31:0] unified_mem [0:63];
+  // wire [31:0] unified_mem [0:63];
 
   integer instruction_pointer;
   integer compute_cycle_counter; // Counter for compute cycles
@@ -213,7 +213,7 @@ module tpu (
     .acc2_mem_1(acc2_mem_1_to_ub),
     .addr(base_address),
     // outputs
-    .unified_mem(unified_mem),
+    // .unified_mem(unified_mem),
     .out_ub_00(out_ub_to_input_setup_00),
     .out_ub_01(out_ub_to_input_setup_01),
     .out_ub_10(out_ub_to_input_setup_10),
