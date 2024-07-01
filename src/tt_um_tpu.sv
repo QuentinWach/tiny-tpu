@@ -1,4 +1,3 @@
-
 `default_nettype none
 
 module tt_um_tpu (
@@ -12,20 +11,21 @@ module tt_um_tpu (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-module tpu (
-  .clk(clk),
-  .reset(reset),
-  .unified_mem [0:63]  // Output for unified buffer memory
-); 
+  // Internal reset signal (active high)
+  wire reset = ~rst_n;
 
-  // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
-  assign uio_out = 0;
-  assign uio_oe  = 0;
+  // Instantiate the tpu module
+  tpu uut (
+    .clk(clk),
+    .reset(reset)
+  ); 
+
+  // Assign the unused outputs to default values
+  assign uo_out  = 8'b0;  // Example: all outputs set to 0
+  assign uio_out = 8'b0;
+  assign uio_oe  = 8'b0;
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, clk, rst_n, 1'b0};
-
-  
+  wire _unused = &{ena, ui_in, uio_in, 1'b0};
 
 endmodule
