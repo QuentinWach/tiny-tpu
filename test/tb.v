@@ -9,16 +9,13 @@ module tb_top_level_module;
   // Inputs
   reg clk;
   reg reset;
-  // Outputs
-  wire [31:0] unified_mem [0:63];
 
   // Instantiate the top level module
-  main uut (
+  tpu uut (
     // Inputs
     .clk(clk),
-    .reset(reset),
-    // Outputs
-    .unified_mem(unified_mem)
+    .reset(reset)
+    // Outputs (none yet)
   );
 
   // Clock generation
