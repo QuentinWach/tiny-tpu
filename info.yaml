@@ -30,20 +30,20 @@ project:
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
   # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
+  ui[0]: "a"
+  ui[1]: "b"
+  ui[2]: "c"
+  ui[3]: "d"
   ui[4]: ""
   ui[5]: ""
   ui[6]: ""
   ui[7]: ""
 
   # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
+  uo[0]: "e"
+  uo[1]: "f"
+  uo[2]: "g"
+  uo[3]: "h"
   uo[4]: ""
   uo[5]: ""
   uo[6]: ""
