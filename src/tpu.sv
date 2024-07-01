@@ -83,11 +83,11 @@ module tpu (
   // TODO: Move this state machine into the control unit
   always @(posedge clk) begin
     if (state == FINISH) begin
-      $display("Unified Buffer at time %t:", $time);
-      for (integer i = 0; i < 64; i = i + 1) begin
-        $display("unified_mem[%0d] = %0d", i, unified_mem[i]);
-      end
-      $finish;
+      // $display("Unified Buffer at time %t:", $time);
+      // for (integer i = 0; i < 64; i = i + 1) begin
+      //   $display("unified_mem[%0d] = %0d", i, unified_mem[i]);
+      // end
+      // $finish;
     end
   end
 
