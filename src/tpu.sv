@@ -152,7 +152,9 @@ end
     .weight1(weight1),
     .weight2(weight2),
     .weight3(weight3),
-    .weight4(weight4)
+    .weight4(weight4),
+    .clk(clk),
+    .reset(reset)
   );
 
   input_setup is (

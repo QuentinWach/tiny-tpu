@@ -1,4 +1,6 @@
 module weight_memory (
+  input clk,
+  input reset,
   input [12:0] addr,
   output reg [15:0] weight1,
   output reg [15:0] weight2,
@@ -19,7 +21,7 @@ module weight_memory (
     memory[16'h0012] <= 6;
   end
 
-  always @(*) begin
+  always @(posedge clk or posedge reset) begin
     weight1 <= memory[addr];
     weight2 <= memory[addr + 1];
     weight3 <= memory[addr + 2];
