@@ -16,8 +16,15 @@ module tt_um_tpu (
 
   // Instantiate the tpu module
   tpu uut (
-    .clk(clk),
-    .reset(reset)
+      .clk(clk),
+      .reset(reset),
+      
+      .ui_in(ui_in),
+      .uo_out(uo_out),
+      .uio_in(uio_in),
+      .uio_out(uio_out),
+      .uio_oe(uio_oe),
+      .ena(ena)
   ); 
 
   // Assign the unused outputs to default values

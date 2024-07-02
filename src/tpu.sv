@@ -1,8 +1,21 @@
 module tpu (
   input clk,
-  input reset
-  // output [31:0] unified_mem [0:63]  // Output for unified buffer memory
+  input reset,
+  input [7:0] ui_in,    // User input
+  output [7:0] uo_out,  // User output
+  input [7:0] uio_in,   // IO input
+  output [7:0] uio_out, // IO output
+  output [7:0] uio_oe,  // IO output enable
+  input ena             // Enable signal
 );
+
+  wire [7:0] dummy_ui_in = ui_in;
+  wire [7:0] dummy_uio_in = uio_in;
+  reg [7:0] dummy_uo_out;
+  reg [7:0] dummy_uio_out;
+  reg [7:0] dummy_uio_oe;
+  wire dummy_ena = ena;
+
   reg [15:0] instruction; // Instruction register
   reg [15:0] instruction_mem [0:7]; // Instruction memory. Adjust the size as needed.   
                                     // TODO: Turn instruction_mem into its own memory partition? 
