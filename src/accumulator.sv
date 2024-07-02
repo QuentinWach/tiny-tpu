@@ -15,7 +15,7 @@ module accumulator (
   integer i; // Declare integer outside of the always block
 
 
-  always @(*) begin
+  always @(posedge clk or reset) begin
     if (reset) begin
       // Initialize all accumulated values to 0 on reset
       for (i = 0; i < 2; i = i + 1) begin

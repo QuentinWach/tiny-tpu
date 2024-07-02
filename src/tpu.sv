@@ -1,11 +1,11 @@
 module tpu (
   input clk,
-  input reset
+  input reset,
+  output [31:0] unified_mem [0:63]  // Output for unified buffer memory
 );
   reg [15:0] instruction; // Instruction register
   reg [15:0] instruction_mem [0:7]; // Instruction memory. Adjust the size as needed.   
                                     // TODO: Turn instruction_mem into its own memory partition? 
-  // wire [31:0] unified_mem [0:63];
 
   integer instruction_pointer;
   integer compute_cycle_counter; // Counter for compute cycles
