@@ -32,64 +32,59 @@ module tpu (
 
   // TODO: Move this state machine into the control unit
   // Instruction state transition block 
-  always @(posedge clk or posedge reset) begin
+ always @(posedge clk or posedge reset) begin
     if (reset) begin
-      state <= IDLE;
-      instruction_pointer <= 0;
-      compute_cycle_counter <= 0; // Reset compute cycle counter
+        state <= IDLE;
+        instruction_pointer <= 0;
+        compute_cycle_counter <= 0; // Reset compute cycle counter
+        instruction <= 16'b000_0000000000000; // Initial state of instruction
     end else begin
-      case (state)
-        IDLE: state <= FETCH;
-        FETCH: state <= EXECUTE;
-        EXECUTE: begin
-          if (instruction_mem[instruction_pointer] == 16'b100_0000000000000) begin
-            if (compute_cycle_counter < 5) begin
-              compute_cycle_counter <= compute_cycle_counter + 1;
-              state <= EXECUTE; // Remain in EXECUTE state for 6 cycles
-            end else begin
-              compute_cycle_counter <= 0; // Reset counter
-              state <= FETCH; // Move to next instruction after 6 cycles
+        case (state)
+            IDLE: begin
+                state <= FETCH;
+                instruction <= 16'b000_0000000000000; // Reset instruction
             end
-          end else begin
-            if (instruction_mem[instruction_pointer] == 16'b000_0000000000000) 
-              state <= FINISH;
-            else 
-              state <= FETCH;
-          end
-        end
-        FINISH: state <= FINISH;
-      endcase
+            FETCH: begin
+                state <= EXECUTE;
+                instruction <= instruction_mem[instruction_pointer];
+            end
+            EXECUTE: begin
+                if (instruction_mem[instruction_pointer] == 16'b100_0000000000000) begin
+                    if (compute_cycle_counter < 5) begin
+                        compute_cycle_counter <= compute_cycle_counter + 1;
+                        state <= EXECUTE; // Remain in EXECUTE state for 6 cycles
+                        instruction <= 16'b100_0000000000000; // Maintain COMPUTE instruction
+                    end else begin
+                        compute_cycle_counter <= 0; // Reset counter
+                        state <= FETCH; // Move to next instruction after 6 cycles
+                        instruction_pointer <= instruction_pointer + 1;
+                        instruction <= instruction_mem[instruction_pointer];
+                    end
+                end else begin
+                    if (instruction_mem[instruction_pointer] == 16'b000_0000000000000) begin
+                        state <= FINISH;
+                        instruction <= 16'b000_0000000000000; // Reset instruction
+                    end else begin
+                        state <= FETCH;
+                        instruction_pointer <= instruction_pointer + 1;
+                        instruction <= instruction_mem[instruction_pointer];
+                    end
+                end
+            end
+            FINISH: begin
+                state <= FINISH;
+                instruction <= 16'b000_0000000000000; // Reset instruction
+                // Optional: display unified buffer contents and finish simulation
+                // $display("Unified Buffer at time %t:", $time);
+                // for (integer i = 0; i < 64; i = i + 1) begin
+                //   $display("unified_mem[%0d] = %0d", i, unified_mem[i]);
+                // end
+                // $finish;
+            end
+        endcase
     end
-  end
+end
 
-  // TODO: Move this state machine into the control unit
-  // Combinational block (assigns actions to each state)
-  always @(posedge clk or posedge reset) begin
-    case (state) // Updates based on change in state
-      IDLE: instruction <= 16'b000_0000000000000;
-      FETCH: instruction <= instruction_mem[instruction_pointer];
-      EXECUTE: begin
-        if (instruction_mem[instruction_pointer] == 16'b100_0000000000000 && compute_cycle_counter < 5) begin
-          instruction <= 16'b100_000000000000;
-        end else begin
-          instruction_pointer <= instruction_pointer + 1;
-          instruction <= instruction_mem[instruction_pointer];
-        end
-      end
-      FINISH: instruction <= 16'b000_0000000000000;
-    endcase
-  end
-
-  // TODO: Move this state machine into the control unit
-  always @(posedge clk) begin
-    if (state == FINISH) begin
-      // $display("Unified Buffer at time %t:", $time);
-      // for (integer i = 0; i < 64; i = i + 1) begin
-      //   $display("unified_mem[%0d] = %0d", i, unified_mem[i]);
-      // end
-      // $finish;
-    end
-  end
 
   wire [15:0] a_in1;
   wire [15:0] a_in2;
