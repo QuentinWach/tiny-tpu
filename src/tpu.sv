@@ -70,7 +70,7 @@ module tpu (
       FETCH: instruction <= instruction_mem[instruction_pointer];
       EXECUTE: begin
         if (instruction_mem[instruction_pointer] == 16'b100_0000000000000 && compute_cycle_counter < 5) begin
-          instruction <= 16'b100_000000000000
+          instruction <= 16'b100_000000000000;
         end else begin
           instruction_pointer <= instruction_pointer + 1;
           instruction <= instruction_mem[instruction_pointer];
