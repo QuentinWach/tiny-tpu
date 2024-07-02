@@ -10,7 +10,7 @@ module control_unit (
 );
 
   // ISA Control
-  always @(*) begin
+  always @(posedge clk or posedge reset) begin
     if (reset) begin
       base_address <= 0;
       load_weight <= 0;
