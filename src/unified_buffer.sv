@@ -23,9 +23,6 @@ module unified_buffer (
   // the local memory
   reg [31:0] unified_mem [0:63];
 
-  // Internal counter to keep track of the next free memory location
-  reg [5:0] write_pointer;
-
   // Initialize local variables
   integer i;
 
@@ -35,8 +32,7 @@ module unified_buffer (
       for (i = 0; i < 64; i = i + 1) begin
         unified_mem[i] <= 0;
       end
-      
-      write_pointer <= 0;
+    
 
       out_ub_00 <= 0; 
       out_ub_01 <= 0;
@@ -44,10 +40,10 @@ module unified_buffer (
       out_ub_11 <= 0; 
 
       // Dummy activation values
-      // unified_mem[16'h001E] <= 11;
-      // unified_mem[16'h001F] <= 12;
-      // unified_mem[16'h0020] <= 21;
-      // unified_mem[16'h0021] <= 22;
+      unified_mem[16'h001E] <= 11;
+      unified_mem[16'h001F] <= 12;
+      unified_mem[16'h0020] <= 21;
+      unified_mem[16'h0021] <= 22;
     end else begin
       // Handle data coming from accumulators that is going into unified buffer
       if (store && store_acc1 && store_acc2) begin
@@ -55,7 +51,6 @@ module unified_buffer (
         unified_mem[addr + 1] <= acc1_mem_1;
         unified_mem[addr + 2] <= acc2_mem_0;
         unified_mem[addr + 3] <= acc2_mem_1;
-        write_pointer <= addr + 4;
       end
       
       // Handle loading data from unified buffer to input setup buffer
