@@ -1,3 +1,5 @@
+`default_nettype none
+
 module unified_buffer (
   input clk,
   input reset,
