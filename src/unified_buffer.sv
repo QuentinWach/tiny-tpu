@@ -74,8 +74,8 @@ module unified_buffer (
   end
 
   // Print the accumulator values every clock cycle
-  always @(posedge clk) begin
-    $display("Time: %0t | acc1_mem_0: %0d, acc1_mem_1: %0d, acc2_mem_0: %0d, acc2_mem_1: %0d", $time, acc1_mem_0, acc1_mem_1, acc2_mem_0, acc2_mem_1);
-  end
+  // always @(posedge clk) begin
+  //   $display("Time: %0t | acc1_mem_0: %0d, acc1_mem_1: %0d, acc2_mem_0: %0d, acc2_mem_1: %0d", $time, acc1_mem_0, acc1_mem_1, acc2_mem_0, acc2_mem_1);
+  // end
 
 endmodule
