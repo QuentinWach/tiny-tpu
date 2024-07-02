@@ -66,17 +66,17 @@ module tpu (
   // Combinational block (assigns actions to each state)
   always @(*) begin
     case (state) // Updates based on change in state
-      IDLE: instruction = 16'b000_0000000000000;
-      FETCH: instruction = instruction_mem[instruction_pointer];
+      IDLE: instruction <= 16'b000_0000000000000;
+      FETCH: instruction <= instruction_mem[instruction_pointer];
       EXECUTE: begin
         if (instruction_mem[instruction_pointer] == 16'b100_0000000000000 && compute_cycle_counter < 5) begin
-          instruction = 16'b100_0000000000000; // Maintain COMPUTE instruction while on COMPUTE. "5" clock cycle delay on this instruction. 
+          instruction <= 16'b100_0000000000000; // Maintain COMPUTE instruction while on COMPUTE. "5" clock cycle delay on this instruction. 
         end else begin
-          instruction_pointer = instruction_pointer + 1;
-          instruction = instruction_mem[instruction_pointer];
+          instruction_pointer <= instruction_pointer + 1;
+          instruction <= instruction_mem[instruction_pointer];
         end
       end
-      FINISH: instruction = 16'b000_0000000000000;
+      FINISH: instruction <= 16'b000_0000000000000;
     endcase
   end
 
