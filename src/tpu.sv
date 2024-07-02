@@ -1,7 +1,7 @@
 module tpu (
   input clk,
-  input reset,
-  output [31:0] unified_mem [0:63]  // Output for unified buffer memory
+  input reset
+  // output [31:0] unified_mem [0:63]  // Output for unified buffer memory
 );
   reg [15:0] instruction; // Instruction register
   reg [15:0] instruction_mem [0:7]; // Instruction memory. Adjust the size as needed.   
