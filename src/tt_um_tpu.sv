@@ -18,7 +18,7 @@ module tt_um_tpu (
   tpu uut (
       .clk(clk),
       .reset(reset),
-      
+
       .ui_in(ui_in),
       .uo_out(uo_out),
       .uio_in(uio_in),
@@ -28,9 +28,9 @@ module tt_um_tpu (
   ); 
 
   // Assign the unused outputs to default values
-  assign uo_out  = 8'b0;  // Example: all outputs set to 0
-  assign uio_out = 8'b0;
-  assign uio_oe  = 8'b0;
+  // assign uo_out  = 8'b0;  // Example: all outputs set to 0
+  // assign uio_out = 8'b0;
+  // assign uio_oe  = 8'b0;
 
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, ui_in, uio_in, 1'b0};
