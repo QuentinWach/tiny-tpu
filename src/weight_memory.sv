@@ -21,7 +21,7 @@ module weight_memory (
   //   memory[16'h0012] <= 6;
   // end
 
-  always @(posedge clk or posedge reset) begin
+  always @(posedge clk) begin
     weight1 <= memory[addr];
     weight2 <= memory[addr + 1];
     weight3 <= memory[addr + 2];

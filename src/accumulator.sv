@@ -14,7 +14,7 @@ module accumulator (
   reg [1:0] index; // Index to manage storage locations
   integer i; // Declare integer outside of the always block
 
-  always @(posedge clk or posedge reset) begin
+  always @(posedge clk) begin
     if (reset) begin
       // Initialize all accumulated values to 0 on reset
       for (i = 0; i < 2; i = i + 1) begin

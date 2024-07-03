@@ -45,7 +45,7 @@ module tpu (
 
   // TODO: Move this state machine into the control unit
   // Instruction state transition block 
- always @(posedge clk or posedge reset) begin
+ always @(posedge clk) begin
     if (reset) begin
         state <= IDLE;
         instruction_pointer <= 0;
