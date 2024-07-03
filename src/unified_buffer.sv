@@ -1,5 +1,3 @@
-`default_nettype none
-
 module unified_buffer (
   input clk,
   input reset,
@@ -28,13 +26,12 @@ module unified_buffer (
   // Initialize local variables
   integer i;
 
-  always @(posedge clk or posedge reset) begin
+  always @(posedge clk) begin
     if (reset) begin
       // Initialize memory and outputs on reset
       for (i = 0; i < 64; i = i + 1) begin
         unified_mem[i] <= 0;
       end
-    
 
       out_ub_00 <= 0; 
       out_ub_01 <= 0;
@@ -42,10 +39,10 @@ module unified_buffer (
       out_ub_11 <= 0; 
 
       // Dummy activation values
-      unified_mem[16'h001E] <= 11;
-      unified_mem[16'h001F] <= 12;
-      unified_mem[16'h0020] <= 21;
-      unified_mem[16'h0021] <= 22;
+      // unified_mem[16'h001E] <= 11;
+      // unified_mem[16'h001F] <= 12;
+      // unified_mem[16'h0020] <= 21;
+      // unified_mem[16'h0021] <= 22;
     end else begin
       // Handle data coming from accumulators that is going into unified buffer
       if (store && store_acc1 && store_acc2) begin
