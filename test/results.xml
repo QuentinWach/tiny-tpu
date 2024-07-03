@@ -1,6 +1,6 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1719966533" />
-    <testcase name="test_tpu" classname="test" file="/Users/evanlin/Desktop/tiny-tpu/test/test.py" lineno="6" time="0.0012230873107910156" sim_time_ns="150.001" ratio_time="122641.28543937622" />
+    <property name="random_seed" value="1719967722" />
+    <testcase name="test_tpu" classname="test" file="/Users/evanlin/Desktop/tiny-tpu/test/test.py" lineno="6" time="0.0011429786682128906" sim_time_ns="150.001" ratio_time="131236.91996328745" />
   </testsuite>
 </testsuites>
