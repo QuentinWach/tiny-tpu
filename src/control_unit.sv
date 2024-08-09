@@ -136,7 +136,4 @@ module control_unit (
   end
 
 
-
-
-  
 endmodule

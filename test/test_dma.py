@@ -21,23 +21,27 @@ async def test_dma(dut):
     dut.reset.value = 0
     await ClockCycles(dut.clk, 1)
 
-    dut.uio_in.value = 0b00100000 # fetch weight "i am holding this down!" and load into address 1
+    dut.uio_in.value = 0b00100010 # fetch weight "i am holding this down!" and load into address 1
     dut.ui_in.value = 0b00000011 # load weight 3
     await ClockCycles(dut.clk, 1)
 
-    dut.uio_in.value = 0b00100001 # fetch weight "i am holding this down!" and load into address 2
+    dut.uio_in.value = 0b00100011 # fetch weight "i am holding this down!" and load into address 2
     dut.ui_in.value = 0b00000100 # load weight 4
     await ClockCycles(dut.clk, 1)
 
-    dut.uio_in.value = 0b00100010 # fetch weight "i am holding this down!" and load intro address 3
+    dut.uio_in.value = 0b00100100 # fetch weight "i am holding this down!" and load intro address 3
     dut.ui_in.value = 0b00000101 # load weight 5
     await ClockCycles(dut.clk, 1)
 
-    dut.uio_in.value = 0b00100011 # fetch weight and load into address 4
+    dut.uio_in.value = 0b00100101 # fetch weight and load into address 4
     dut.ui_in.value = 0b00000110 # load weight 6
     await ClockCycles(dut.clk, 1)
 
+
+
+
     dut.uio_in.value = 0b01000011 # fetch inputs and load into address 4
+    dut.ui_in.value = 0b00000000 # load weight 6
     await ClockCycles(dut.clk, 1)
 
     dut.uio_in.value = 0b01100001 # fetch instructions

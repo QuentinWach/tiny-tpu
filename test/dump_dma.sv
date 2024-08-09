@@ -8,6 +8,8 @@ module dump();
         $dumpvars(0, dma.test_storage[2]);
         $dumpvars(0, dma.test_storage[3]);
 
+        $dumpvars(0, dma.test_storage[4]);
+        $dumpvars(0, dma.test_storage[5]);
 
         #1;
     end
