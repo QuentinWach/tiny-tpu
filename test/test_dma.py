@@ -38,10 +38,8 @@ async def test_dma(dut):
     await ClockCycles(dut.clk, 1)
 
 
-
-
     dut.uio_in.value = 0b01000011 # fetch inputs and load into address 4
-    dut.ui_in.value = 0b00000000 # load weight 6
+    dut.ui_in.value = 0b00000000 # load weight 0
     await ClockCycles(dut.clk, 1)
 
     dut.uio_in.value = 0b01100001 # fetch instructions

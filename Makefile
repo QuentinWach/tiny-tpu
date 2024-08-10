@@ -48,6 +48,13 @@ test_dma:
 	iverilog -o sim_build/sim.vvp -s dma -s dump -g2012 src/dma.sv test/dump_dma.sv
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_dma vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 	! grep failure results.xml
+
+test_wm:
+	rm -rf sim_build/
+	mkdir sim_build/
+	iverilog -o sim_build/sim.vvp -s weight_memory -s dump -g2012 src/weight_memory.sv test/dump_weight_memory.sv
+	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_wm vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
+	! grep failure results.xml
 	
 # will need to make another make command for testing my entire chip (command should be just like the tpu command but add the tt_um_tpu src files)
 

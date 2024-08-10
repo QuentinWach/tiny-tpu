@@ -4,6 +4,7 @@
 module weight_memory (
   input wire fetch_w, 
   input wire [7:0] ui_in, 
+  input wire [3:0] dma_address,
 
   input wire clk,
   input wire reset,
@@ -15,11 +16,7 @@ module weight_memory (
   output reg [7:0] weight4
 );
   reg [7:0] memory [0:7]; // Simple memory to store weights (only 8 addresses)
-  reg [3:0] memory_pointer; 
   integer i;
-
-  typedef enum reg [1:0] {IDLE, READ_FROM_HOST} state_t; 
-  state_t state = IDLE;
  
   always @(posedge clk or posedge reset) begin
     if (reset) begin
@@ -31,34 +28,15 @@ module weight_memory (
       weight3 <= 8'b0;
       weight4 <= 8'b0;
 
-      memory_pointer <= 3'b0; 
-      state <= IDLE; 
+    end else if (fetch_w) begin // READ data into weight memory 
+      memory[dma_address] <= ui_in;
 
-    end else if (load_weight) begin // WRITE DATA
+    end else if (load_weight) begin // WRITE weight data from weight memory into mmu processing elements, concurrently. 
       weight1 <= memory[addr];
       weight2 <= memory[addr + 1];
       weight3 <= memory[addr + 2];
       weight4 <= memory[addr + 3];
-    end else begin
 
-        case (state)
-          IDLE: begin
-              state <= IDLE;
-              if (fetch_w) begin // if fetch_w flag is enabled. 
-                state <= READ_FROM_HOST; 
-              end
-          end
-          READ_FROM_HOST: begin
-            if (memory_pointer < 4) begin // could be delay issues from jumping immediateely to this state. may need to manually add another delay to fix the timing? 
-              memory[memory_pointer] <= ui_in; // memory pointer will always start from the first address
-              memory_pointer <= memory_pointer + 1; 
-            end else begin
-              state <= IDLE; 
-            end
-          end
-        endcase
-
-
-    end
+    end 
   end
 endmodule

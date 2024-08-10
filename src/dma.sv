@@ -6,18 +6,18 @@ module dma (
     input clk, 
     input reset, 
     input wire [7:0] uio_in, 
-    input wire [7:0] ui_in, // TODO: delete this later
+    // input wire [7:0] ui_in, // delete this later
     // OUTPUTS
     output wire fetch_w,
     output wire fetch_inp,
     output wire fetch_ins,
     output wire start,
-    output wire [3:0] dma_address,
-    output wire [7:0] first // TODO: delete (or comment out)
+    output wire [3:0] dma_address
+    // output wire [7:0] first // delete (or comment out)
 );
 
-    // Internal register
-    reg [7:0] test_storage [0:5];
+    // Internal register (delete or comment out later)
+    // reg [7:0] test_storage [0:5];
     integer i;
 
     // Combinational logic for outputs
@@ -27,19 +27,19 @@ module dma (
     assign start = (uio_in[7:5] == 3'b100) ? 1 : 0;   
     assign dma_address = uio_in[3:0];
 
-    assign first = test_storage[2]; // ok this works
+    // assign first = test_storage[3]; // ok this works
 
 
-    // TODO: delete this later!!!
-    always @(posedge clk) begin
-        if (reset) begin
-            for (i = 0; i < 6; i = i + 1) begin
-                test_storage[i] <= 8'b0;
-            end
-        end else if (fetch_w) begin
-            test_storage[dma_address] <= ui_in;
-        end
-    end
+    // delete or commend this out this later!!!
+    // always @(posedge clk) begin
+    //     if (reset) begin
+    //         for (i = 0; i < 6; i = i + 1) begin
+    //             test_storage[i] <= 8'b0;
+    //         end
+    //     end else if (fetch_w) begin
+    //         test_storage[dma_address] <= ui_in;
+    //     end
+    // end
 
 
 endmodule

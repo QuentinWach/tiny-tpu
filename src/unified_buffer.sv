@@ -4,6 +4,7 @@
 module unified_buffer (
   input wire fetch_inp,
   input wire [7:0] ui_in, 
+  input wire [3:0] dma_address,
     // TODO: Implement logic to load data into unified_mem using these two inputs above. 
 
   input wire clk,
@@ -32,18 +33,12 @@ module unified_buffer (
   output reg [7:0] final_out
 );
 
-  // TODO: WORK IN PROGRESS
-  typedef enum reg [1:0] {RFM_IDLE, READ_FROM_HOST} state_j; 
-  state_j state_rfm = RFM_IDLE;
-  reg [4:0] memory_pointer; // Addressable up to 32 bits
-  // WORK IN PROGRESS
-
-
   typedef enum reg [1:0] {IDLE, WRITE_TO_HOST} state_t; // this is for taking product matrix out of chip
   state_t state = IDLE;
 
   parameter MEM_SIZE = 16;
   reg [7:0] unified_mem [0:MEM_SIZE-1];
+  reg [4:0] memory_pointer; // Addressable up to 32 bits
   integer i;
 
 
@@ -63,7 +58,7 @@ module unified_buffer (
       end_addr <= 5'b0; 
       addr_pointer <= 5'b0;
     end else begin
-      /* READ FROM MEMORY */  
+      // READ FROM MEMORY (perhaps put this into the FSM?)
       if (load_input) begin
         out_ub_00 <= unified_mem[addr]; 
         out_ub_01 <= unified_mem[addr + 1]; 
@@ -71,7 +66,13 @@ module unified_buffer (
         out_ub_11 <= unified_mem[addr + 3]; 
       end
 
-      /* STORE TO MEMORY */
+      // STORE HOST COMPUTER VALUES TO MEMORY (perhaps put this into the FSM?)
+      if (fetch_inp) begin
+            unified_mem[dma_address] <= ui_in;
+
+      end
+
+      // STORE PRODUCT MATRIX TO MEMORY (perhaps put this into the FSM?)
       if (store && full_acc1 && full_acc2) begin 
         unified_mem[addr] <= acc1_mem_0;
         unified_mem[addr + 1] <= acc1_mem_1;
@@ -79,16 +80,17 @@ module unified_buffer (
         unified_mem[addr + 3] <= acc2_mem_1;
       end
 
+        // State machine for handling product matrix output
         case (state)
           IDLE: begin
             final_out <= 8'b0; 
             end_addr <= 5'b0; 
             addr_pointer <= 5'b0;
-            if (ext) begin
+            if (ext) begin // flag for writing product matrix to output
               state <= WRITE_TO_HOST;
               addr_pointer <= addr; 
               end_addr <= addr + 4; 
-            end // TODO: else case for fetch_inp!!!! add this!!!
+            end 
           end
           WRITE_TO_HOST: begin
             if (addr_pointer < end_addr) begin

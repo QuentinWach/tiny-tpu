@@ -58,7 +58,7 @@ module tpu (
 
   // Instantiate direct memory controller 
   dma dma ( 
-    .ui_in(ui_in), // TODO:  delete this after -> keep it here for testing 
+    // .ui_in(ui_in)  delete this after -> keep it here for testing 
     // INPUTS
     .clk(clk),
     .reset(reset),
@@ -75,6 +75,7 @@ module tpu (
   control_unit cu (
     .fetch_ins(fetch_ins),
     .ui_in(ui_in),
+    .dma_address(dma_address),
 
     .start(start),
     .clk(clk),
@@ -91,6 +92,7 @@ module tpu (
   weight_memory wm (
     .fetch_w(fetch_w),
     .ui_in(ui_in),
+    .dma_address(dma_address), 
 
     .clk(clk),
     .reset(reset),
@@ -171,6 +173,7 @@ module tpu (
     .acc2_mem_0(acc2_mem_0_to_ub),
     .acc2_mem_1(acc2_mem_1_to_ub),
     .addr(base_address),
+    .dma_address(dma_address),
     // OUTPUTS
     .out_ub_00(out_ub_to_input_setup_00),
     .out_ub_01(out_ub_to_input_setup_01),
