@@ -5,7 +5,6 @@ module unified_buffer (
   input wire fetch_inp,
   input wire [7:0] ui_in, 
   input wire [3:0] dma_address,
-    // TODO: Implement logic to load data into unified_mem using these two inputs above. 
 
   input wire clk,
   input wire reset,
@@ -69,7 +68,6 @@ module unified_buffer (
       // STORE HOST COMPUTER VALUES TO MEMORY (perhaps put this into the FSM?)
       if (fetch_inp) begin
             unified_mem[dma_address] <= ui_in;
-
       end
 
       // STORE PRODUCT MATRIX TO MEMORY (perhaps put this into the FSM?)

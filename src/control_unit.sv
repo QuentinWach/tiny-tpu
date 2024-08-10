@@ -38,7 +38,7 @@ module control_unit (
   integer compute_cycle_counter;    // Counter for compute cycles
 
   // READ instruction data from host computer
-  always @(posedge clk or posedge reset) begin  // TODO: combine this FSM into the one below? add read from host state into enum below? 
+  always @(posedge clk or posedge reset) begin 
     if (fetch_ins) begin
         instruction_mem[dma_address] <= ui_in; 
     end

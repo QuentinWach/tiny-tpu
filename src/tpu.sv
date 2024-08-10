@@ -16,7 +16,7 @@ module tpu (
   wire fetch_w;
   wire fetch_inp; 
   wire fetch_ins; 
-  wire [3:0] dma_address; // TODO: connect this to each memory device?? perhaps merge this with base address wire? 
+  wire [3:0] dma_address;
 
   // "Zero-buffered" staggered "x" value matrix data transfer from input setup into mmu
   wire [7:0] a_in1;
