@@ -4,6 +4,7 @@
 module control_unit (
   input wire fetch_ins,
   input wire [7:0] ui_in, 
+  input wire [3:0] dma_address,
 
   input wire clk,
   input wire reset,
@@ -28,12 +29,7 @@ module control_unit (
   // FSM states for interal instruction dispatch
   typedef enum reg [1:0] {IDLE, FETCH, EXECUTE, FINISH} state_t;
   state_t state = IDLE;
-  
-  // FSM states for fetching data from an external computer
-  typedef enum reg [1:0] {RFM_IDLE, READ_FROM_HOST} state_j; 
-  state_j state_rfm = RFM_IDLE;
-  reg [3:0] memory_pointer; 
-  
+
   // Instruction memory
   reg [7:0] instruction_mem [0:9]; // Adjust the size as needed.
   reg [7:0] instruction;           // Instruction register
@@ -41,32 +37,16 @@ module control_unit (
   integer instruction_pointer;
   integer compute_cycle_counter;    // Counter for compute cycles
 
-  always @(posedge clk or posedge reset) begin  // TODO: combine this FSM into the one below? add read from host state into enum below? 
-      if (reset) begin                          // .... or not because maybe its better to have this as a seperate, parallel process 
-        state_rfm <= RFM_IDLE; 
-        memory_pointer <= 0;
-      end else begin
-      case (state_rfm)
-          RFM_IDLE: begin
-            state_rfm <= RFM_IDLE;
-              if (fetch_ins) begin // if fetch_w flag is enabled. 
-                state_rfm <= READ_FROM_HOST; 
-              end
-            end
-          READ_FROM_HOST: begin
-              if (memory_pointer < 10) begin
-                instruction_mem[memory_pointer] <= ui_in; // memory pointer will always start from the first address
-                memory_pointer <= memory_pointer + 1; 
-              end else begin
-                state_rfm <= RFM_IDLE; 
-              end
-            end
-          endcase
-        end
+  // READ instruction data from host computer
+  always @(posedge clk or posedge reset) begin 
+    if (fetch_ins) begin
+        instruction_mem[dma_address] <= ui_in; 
     end
-    // Instruction decoding and control signal generation block
+  end
+
+  // Instruction decoding and control signal generation block
   always @(*) begin
-      if (reset) begin // TODO: this creates a latch error i think. need to do the (!reset) method (look at the tt priv repo)
+      if (reset) begin // i think this creates a latch error i think. need to do the (!reset) method (look at the tt priv repo)
         base_address = 0;
         load_weight = 0;
         load_input = 0;
@@ -136,7 +116,4 @@ module control_unit (
   end
 
 
-
-
-  
 endmodule
